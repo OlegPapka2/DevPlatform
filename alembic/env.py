@@ -1,12 +1,15 @@
 from logging.config import fileConfig
 
+from alembic import context
+from alembic.script import ScriptDirectory
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from alembic import context
-
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+from models.base import metadata
+from utils.env_utils import get_env_var
+
 config = context.config
 
 # Interpret the config file for Python logging.
@@ -18,12 +21,30 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+config.set_main_option(
+    "sqlalchemy.url", get_env_var('DB_URL')
+)
+
+
+def process_revision_directives(context, revision, directives):
+    migration_script = directives[0]
+    head_revision = ScriptDirectory.from_config(
+        context.config).get_current_head()
+
+    if head_revision is None:
+        new_rev_id = 1
+    else:
+        last_rev_id = int(head_revision.lstrip('0'))
+        new_rev_id = last_rev_id + 1
+
+    migration_script.rev_id = str(new_rev_id)
 
 
 def run_migrations_offline() -> None:
@@ -65,7 +86,9 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            process_revision_directives=process_revision_directives
         )
 
         with context.begin_transaction():
