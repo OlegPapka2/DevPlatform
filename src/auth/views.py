@@ -16,4 +16,4 @@ def login():
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     """Register user page"""
-    return render_template('register.html')
+    return render_template('registration.html')
