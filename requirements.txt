@@ -1,3 +1,4 @@
-alembic~=1.8.1
-SQLAlchemy~=1.4.41
-psycopg2~=2.9.3
+alembic
+SQLAlchemy
+psycopg2
+Flask
