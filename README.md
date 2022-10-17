@@ -6,7 +6,7 @@ This is collaborative platform for developers. Chat and write code together.
 
 All example environmental variables could be found in [`.env.example`](./.env.example).
 
-### How to run migrations:
+### Before running app:
 
 Create PostgreSQL db, and get your db url:
 
@@ -14,16 +14,17 @@ Create PostgreSQL db, and get your db url:
 $ export DB_URL='postgresql://user_name:password@host:port/db_name'
 ```
 
-Then run alembic revision and migration, to create all tables:
+Then run script [`db_init.py`](./src/db_init.py), to create all tables:
 
 ```bash
-$ alembic revision --autogenerate -m 'initial'
-$ alembic upgrade head
+$ python3 ./src/db_init.py
+# or for Windows
+$ py ./src/db_init.py
 ```
 
 ### How to run app:
 
-Runs app on default path `http://127.0.0.1:5000/`.
+Following Runs app on default path `http://127.0.0.1:5000/`.
 
 ```bash
 $ python3 -m flask --app src/app run
