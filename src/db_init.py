@@ -3,7 +3,7 @@ from flask_migrate import Migrate, upgrade
 from app import app, db
 
 
-def create_tables():
+def create_tables() -> None:
     migrate = Migrate(app, db)
     migrate.init_app(app, db)
 

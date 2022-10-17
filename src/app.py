@@ -1,5 +1,4 @@
 from flask import Flask
-
 from flask_sqlalchemy import SQLAlchemy
 
 from auth import auth_bp
