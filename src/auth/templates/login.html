@@ -5,13 +5,22 @@
 {% endblock %}
 
 {% block content %}
-    <form action="/login" method="post">
+    <form action="/login" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+
         <div class="form-group">
-            <input autocomplete="on" autofocus name="username" placeholder="Username" type="text">
+            <input autocomplete="on" autofocus name="email" placeholder="e-mail" type="text">
         </div>
         <div class="form-group">
             <input name="password" placeholder="Password" type="password">
         </div>
+        <br>
+        <a href="{{ url_for('auth.register') }}">
+            Register
+        </a>
+        <br><br>
+
         <button type="submit">Log In</button>
     </form>
 {% endblock %}

@@ -6,4 +6,8 @@
 
 {% block content %}
     <h1>Your Chat and Editor</h1>
+
+    {% if current_user.is_authenticated %}
+      Hi {{ current_user.name }}!
+    {% endif %}
 {% endblock %}

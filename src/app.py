@@ -1,7 +1,7 @@
 from flask import Flask
 
 from auth import auth_bp
-from extensions import db
+from extensions import db, login_manager
 from home import home_bp
 from profile import profile_bp
 
@@ -9,6 +9,7 @@ from profile import profile_bp
 def register_extensions(app):
     """Register Flask extensions"""
     db.init_app(app)
+    login_manager.init_app(app)
 
 
 def register_blueprints(app):
