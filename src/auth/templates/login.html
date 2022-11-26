@@ -1,26 +1,28 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
 {% block title %}
     Log In
 {% endblock %}
 
 {% block content %}
-    <form action="/login" method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.csrf_token }}
+    <div id="form_wrapper">
 
-        <div class="form-group">
-            <input autocomplete="on" autofocus name="email" placeholder="e-mail" type="text">
-        </div>
-        <div class="form-group">
-            <input name="password" placeholder="Password" type="password">
-        </div>
-        <br>
-        <a href="{{ url_for('auth.register') }}">
-            Register
-        </a>
-        <br><br>
+        <form action="/login" method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
 
-        <button type="submit">Log In</button>
-    </form>
+            <h2>Welcome back!</h2>
+
+            <input autocomplete="on" autofocus name="email" placeholder="E-mail" type="text" required>
+            <input name="password" placeholder="Password" type="password" required>
+
+            <a href="{{ url_for('auth.register') }}">Register</a>
+
+            <button type="submit">Log In</button>
+        </form>
+    </div>
 {% endblock %}
