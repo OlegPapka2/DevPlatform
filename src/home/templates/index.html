@@ -1,13 +1,40 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+{% endblock %}
+
 {% block title %}
     Chat&Editor
 {% endblock %}
 
 {% block content %}
-    <h1>Your Chat and Editor</h1>
+    <div id="editor">{% if current_user.is_authenticated %}// Hi {{ current_user.name }}!{% endif %}</div>
 
-    {% if current_user.is_authenticated %}
-      Hi {{ current_user.name }}!
-    {% endif %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.13.1/ace.js"
+            integrity="sha512-IQmiIneKUJhTJElpHOlsrb3jpF7r54AzhCTi7BTDLiBVg0f7mrEqWVCmOeoqKv5hDdyf3rbbxBUgYf4u3O/QcQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        let editor = ace.edit("editor");
+        editor.setTheme("ace/theme/one_dark");
+        editor.session.setMode("ace/mode/markdown");
+        editor.session.setTabSize(4);
+
+    </script>
+
+    <div id="chat_wrapper">
+        <div id="contacts">
+
+        </div>
+        <div id="chat">
+
+        </div>
+        <div id="message_field">
+            <input type="text" placeholder="Enter message">
+            <button id="send_message">Send</button>
+        </div>
+    </div>
 {% endblock %}

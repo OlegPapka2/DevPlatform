@@ -13,7 +13,9 @@
 
 <div id="flash_messages">
     {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
+        <div class="flash">
+            <p>{{ message }}</p>
+        </div>
     {% endfor %}
 </div>
 
@@ -22,7 +24,7 @@
 
     {% if current_user.is_authenticated %}
         <a href="{{ url_for('auth.logout') }}">
-            logout
+            <p>logout</p>
         </a>
     {% endif %}
 </nav>

@@ -27,9 +27,12 @@ input[type=password], select {
 }
 
 a {
-    padding: 12px 0;
     margin: 8px 3px;
     display: inline-block;
+}
+
+h2 {
+    margin: 0 3px 20px;
 }
 
 button {
