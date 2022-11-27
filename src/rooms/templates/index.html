@@ -50,6 +50,21 @@
                     }
                 })
 
+                socket.on('message', function (data) {
+                    socket.emit('join', {room: $('#join_room').val()});
+                    return false;
+                });
+
+                $('form#leave').submit(function (event) {
+                    socket.emit('leave', {room: $('#leave_room').val()});
+                    return false;
+                });
+                $('form#send_room').submit(function (event) {
+                    socket.emit('my_room_event', {room: $('#room_name').val(), data: $('#room_data').val()});
+                    return false;
+                });
+
+
                 $('#send_btn').on('click', function () {
                     var message = $('#message').val();
                     if (message != '') {

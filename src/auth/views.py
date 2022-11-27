@@ -29,7 +29,7 @@ def login():
         if form.validate_on_submit():
             login_user(form.user)
             flash('Logged in successfully.')
-            return redirect(url_for('home.index'))
+            return redirect(url_for('rooms.rooms'))
         else:
             flash_errors(form)
 

@@ -2,7 +2,7 @@ from flask import Flask
 
 from auth import auth_bp
 from extensions import db, login_manager, socketio
-from home import home_bp
+from rooms import home_bp
 from profile import profile_bp
 
 
