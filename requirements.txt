@@ -4,5 +4,6 @@ Flask-SQLAlchemy
 Flask-Migrate
 Flask-WTF
 Flask-Login
+flask-socketio
 SQLAlchemy
 Werkzeug

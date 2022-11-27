@@ -16,6 +16,13 @@
 #chat {
     grid-area: 1 / 2 / 2 / 3;
     background: #f2f2f2;
+    padding: 0 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    overflow-y: scroll;
+    height: calc(100vh - 140px);
+    box-sizing: border-box;
 }
 
 #message_field {
@@ -56,4 +63,21 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.msg {
+    border: 2px solid #d3d3d3;
+    padding: 10px;
+    max-width: 300px;
+    min-width: 100px;
+    min-height: 40px;
+    margin: 8px;
+    border-radius: 14px;
+    align-self: start;
+}
+
+.current_user {
+    align-self: end;
+    background: #bebebe;
+    border: 2px solid #a9a9a9;
 }
