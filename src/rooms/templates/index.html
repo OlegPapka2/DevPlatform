@@ -25,9 +25,6 @@
     </script>
 
     <div id="chat_wrapper">
-        <div id="contacts">
-        </div>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"
                 integrity="sha512-YeeA/Qxn5hYdkukScTCNNOhTrv1C2RubAGButJ1rmgQwZf/HdRaCGl+JAVkqsqaNRaYNHdheiuKKuPf9mDcqKg=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -38,9 +35,6 @@
         <script>
             $(document).ready(function () {
                 var socket = io.connect("http://localhost:5000")
-                socket.on('connect', function () {
-                    socket.send("User connected!");
-                });
 
                 socket.on('message', function (data) {
                     if (data['user_id'] == {{ current_user.id }}) {
@@ -89,8 +83,14 @@
             })
         </script>
 
-        <div id="chat">
+        <div id="container">
+            <div id="user">
+                <p>To user:</p>
+            </div>
+            <div id="chat">
+            </div>
         </div>
+
 
         <div id="message_field">
             <input name="message" id="message" type="text" placeholder="Enter your message" required>

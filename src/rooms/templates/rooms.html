@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rooms.css') }}">
+{% endblock %}
+
+{% block title %}
+    Rooms
+{% endblock %}
+
+{% block content %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"
+            integrity="sha512-YeeA/Qxn5hYdkukScTCNNOhTrv1C2RubAGButJ1rmgQwZf/HdRaCGl+JAVkqsqaNRaYNHdheiuKKuPf9mDcqKg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <form>
+        <h1>Hello {{ current_user.name }}!</h1>
+        <p id="p">Let's begin:</p>
+
+        <input name="room_id" id="room_id" type="text" placeholder="Enter room ID">
+        <button id="join">Join room</button>
+
+        <div id="or">OR</div>
+
+        <button id="create">Create room</button>
+    </form>
+
+
+
+    <script>
+        $(document).ready(function () {
+            var socket = io.connect("http://localhost:5000")
+            $('#create').on('click', function () {
+                socket.emit('join', {room: {{ current_user.id }}});
+                return false;
+            });
+
+
+            $('#join').on('click', function () {
+                var id = $('#message').val();
+                if (message !== '') {
+                    socket.emit('join', {room: id});
+                    return false;
+                }
+            })
+
+            socket.on('redirect', (dest) => {
+                window.location.href = dest;
+            });
+
+        })
+    </script>
+
+
+{% endblock %}

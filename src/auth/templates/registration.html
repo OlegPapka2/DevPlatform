@@ -11,7 +11,7 @@
 {% block content %}
     <div id="form_wrapper">
 
-        <form action="/register" method="POST">
+        <form id="reg-form" action="/register" method="POST">
             {{ form.hidden_tag() }}
             {{ form.csrf_token }}
 
@@ -20,8 +20,10 @@
             <input autocomplete="on" autofocus name="email" placeholder="e-mail" type="text" required>
             <input autocomplete="on" name="first_name" placeholder="First name" type="text" required>
 
-            <input name="password" id="password" placeholder="Password" type="password" onkeyup='check_confirmation_psw();' required>
-            <input name="password_confirmation" id="confirm_password" placeholder="Password confirmation" type="password"  onkeyup='check_confirmation_psw();' required>
+            <input name="password" id="password" placeholder="Password" type="password"
+                   onkeyup='check_psw();' required>
+            <input name="password_confirmation" id="confirm_password" placeholder="Password confirmation"
+                   type="password" onkeyup='check_psw();' required>
 
             <a href="{{ url_for('auth.login') }}"><p>Login</p></a>
 
@@ -41,6 +43,29 @@
                 document.getElementById('password').style.color = 'red';
                 document.getElementById('confirm_password').setCustomValidity('Passwords do not match!')
             }
+        }
+
+        var check_psw = function () {
+            var p = document.getElementById('password')
+            var pc = document.getElementById('confirm_password')
+
+            if (p.value === pc.value) {
+                pc.style.color = 'green';
+                p.style.color = 'green';
+                pc.setCustomValidity('')
+
+                if (p.value.length < 6) {
+                    pc.style.color = 'red';
+                    p.style.color = 'red';
+                    pc.setCustomValidity('Passwords should contain 6 characters at least!')
+                }
+            } else {
+                pc.style.color = 'red';
+                p.style.color = 'red';
+                pc.setCustomValidity('Passwords do not match!')
+            }
+
+
         }
     </script>
 {% endblock %}

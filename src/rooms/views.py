@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from flask_login import login_required, current_user
+from flask_login import login_required
 from flask_socketio import send, join_room, leave_room
 
 from extensions import socketio
@@ -11,21 +11,23 @@ home_bp = Blueprint(
 )
 
 
-@home_bp.route('/rooms', methods=['GET'])
+@home_bp.route('/room', methods=['GET'])
 @login_required
 def rooms():
-    """Home page"""
-    user_id = current_user.id
-
     return render_template('rooms.html')
+
+
+@home_bp.route('/', methods=['GET'])
+@login_required
+def home():
+    """Home page"""
+    return render_template('index.html')
 
 
 @socketio.on('join')
 def on_join(data):
-    username = data['username']
     room = data['room']
     join_room(room)
-    send(username + ' has entered the room.', to=room)
 
 
 @socketio.on('leave')
