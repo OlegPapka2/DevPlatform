@@ -27,11 +27,10 @@ $ py ./src/db_init.py
 Following Runs app on default path `http://127.0.0.1:5000/`.
 
 ```bash
-$ python3 -m flask --app src/app run
+$ python3 src/app.py
 # or for Windows
-$ py -m flask --app src/app run
+$ py src/app.py
 ```
 
 As always PyCharm simplifies our being, look 
-[here](https://flask.palletsprojects.com/en/2.2.x/cli/#pycharm-integration) for details.  
-Do not forget to specify app location via `--app src/app`.
+[here](https://flask.palletsprojects.com/en/2.2.x/cli/#pycharm-integration) for details.
