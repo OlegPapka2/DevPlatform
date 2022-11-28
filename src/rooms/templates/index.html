@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+{% endblock %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <div id="editor">{% if current_user.is_authenticated %}// Hi {{ current_user.name }}!{% endif %}</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.13.1/ace.js"
+            integrity="sha512-IQmiIneKUJhTJElpHOlsrb3jpF7r54AzhCTi7BTDLiBVg0f7mrEqWVCmOeoqKv5hDdyf3rbbxBUgYf4u3O/QcQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        let editor = ace.edit("editor");
+        editor.setTheme("ace/theme/one_dark");
+        editor.session.setMode("ace/mode/markdown");
+        editor.session.setTabSize(4);
+    </script>
+
+    <div id="chat_wrapper">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"
+                integrity="sha512-YeeA/Qxn5hYdkukScTCNNOhTrv1C2RubAGButJ1rmgQwZf/HdRaCGl+JAVkqsqaNRaYNHdheiuKKuPf9mDcqKg=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+                integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script>
+            $(document).ready(function () {
+                var socket = io.connect("http://localhost:5000")
+
+                socket.on('message', function (data) {
+                    if (data['user_id'] == {{ current_user.id }}) {
+                        $('#chat').append($('<p class="msg current_user">').text(data['message']));
+                    } else {
+                        $('#chat').append($('<p class="msg">').text(data['message']));
+                    }
+                })
+
+                socket.on('message', function (data) {
+                    socket.emit('join', {room: $('#join_room').val()});
+                    return false;
+                });
+
+                $('form#leave').submit(function (event) {
+                    socket.emit('leave', {room: $('#leave_room').val()});
+                    return false;
+                });
+                $('form#send_room').submit(function (event) {
+                    socket.emit('my_room_event', {room: $('#room_name').val(), data: $('#room_data').val()});
+                    return false;
+                });
+
+
+                $('#send_btn').on('click', function () {
+                    var message = $('#message').val();
+                    if (message != '') {
+
+                        socket.emit('json',
+                            {
+                                'user_id': {{ current_user.id }},
+                                'user_name': '{{ current_user.name }}',
+                                'message': message
+                            }
+                        )
+                        $('#message').val('');
+                    }
+                })
+
+                $("#message").keyup(function (event) {
+                    if (event.keyCode === 13) {
+                        $("#send_btn").click();
+                    }
+                });
+
+            })
+        </script>
+
+        <div id="container">
+            <div id="user">
+                <p><a href="{{ url_for('profile.profile') }}">Profile</a></p>
+            </div>
+            <div id="chat">
+            </div>
+        </div>
+
+
+        <div id="message_field">
+            <input name="message" id="message" type="text" placeholder="Enter your message" required>
+            <button id="send_btn">Send</button>
+        </div>
+    </div>
+
+{% endblock %}

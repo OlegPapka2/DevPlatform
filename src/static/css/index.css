@@ -1,0 +1,14 @@
+#main_wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    padding: 0;
+}
+
+#editor {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+#chat_wrapper {
+    grid-area: 1 / 2 / 2 / 3;
+}

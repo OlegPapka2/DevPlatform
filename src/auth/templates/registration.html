@@ -1,20 +1,71 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
 {% block title %}
     Register
 {% endblock %}
 
 {% block content %}
-    <form action="/login" method="post">
-        <div class="form-group">
-            <input autocomplete="on" autofocus name="username" placeholder="Username" type="text">
-        </div>
-        <div class="form-group">
-            <input name="password" placeholder="Password" type="password">
-        </div>
-        <div class="form-group">
-            <input name="password" placeholder="Password" type="password">
-        </div>
-        <button type="submit">Register</button>
-    </form>
+    <div id="form_wrapper">
+
+        <form id="reg-form" action="/register" method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
+
+            <h2>Let's get to know each other!</h2>
+
+            <input autocomplete="on" autofocus name="email" placeholder="e-mail" type="text" required>
+            <input autocomplete="on" name="first_name" placeholder="First name" type="text" required>
+
+            <input name="password" id="password" placeholder="Password" type="password"
+                   onkeyup='check_psw();' required>
+            <input name="password_confirmation" id="confirm_password" placeholder="Password confirmation"
+                   type="password" onkeyup='check_psw();' required>
+
+            <a href="{{ url_for('auth.login') }}"><p>Login</p></a>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        var check_confirmation_psw = function () {
+            if (document.getElementById('password').value ===
+                document.getElementById('confirm_password').value) {
+                document.getElementById('confirm_password').style.color = 'green';
+                document.getElementById('password').style.color = 'green';
+                document.getElementById('confirm_password').setCustomValidity('')
+            } else {
+                document.getElementById('confirm_password').style.color = 'red';
+                document.getElementById('password').style.color = 'red';
+                document.getElementById('confirm_password').setCustomValidity('Passwords do not match!')
+            }
+        }
+
+        var check_psw = function () {
+            var p = document.getElementById('password')
+            var pc = document.getElementById('confirm_password')
+
+            if (p.value === pc.value) {
+                pc.style.color = 'green';
+                p.style.color = 'green';
+                pc.setCustomValidity('')
+
+                if (p.value.length < 6) {
+                    pc.style.color = 'red';
+                    p.style.color = 'red';
+                    pc.setCustomValidity('Passwords should contain 6 characters at least!')
+                }
+            } else {
+                pc.style.color = 'red';
+                p.style.color = 'red';
+                pc.setCustomValidity('Passwords do not match!')
+            }
+
+
+        }
+    </script>
 {% endblock %}
