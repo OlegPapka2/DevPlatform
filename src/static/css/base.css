@@ -39,6 +39,10 @@ p {
     font: 16px sans-serif;
 }
 
+label {
+    font: 16px sans-serif;
+}
+
 a {
     text-decoration: none;
     color: #005EB8;

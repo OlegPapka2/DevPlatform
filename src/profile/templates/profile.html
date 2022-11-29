@@ -14,15 +14,97 @@
 
 {% block content %}
     <div id="profile">
-        <div id="picture">
-            <img src="{{ profile_picture }}" alt="Profile picture">
+        <div id="picture_wrapper">
+            <div id="picture">
+                <img src="{{ profile_picture }}" alt="Profile picture">
+            </div>
+
+            <div id="image_btn_wrapper">
+                <input type="file" id="file_selector" accept="image/jpeg, image/png, image/jpg">
+                <button id="delete_image">Remove image</button>
+            </div>
+
         </div>
 
-        <p><span>E-mail:</span> {{ current_user.email }}</p>
-        <p><span>First name:</span> {{ current_user.first_name }}</p>
-        <p><span>Last name:</span> {{ current_user.last_name }}</p>
-        <p><span>Nickname:</span> {{ current_user.username }}</p>
-        <p><span>Member since:</span> {{ current_user.member_since }}</p>
-        <p><span>Bio:</span> {{ current_user.bio }}</p>
+        <script>
+            function edit_profile() {
+                var form = document.getElementById("user_data_edit");
+                var data = document.getElementById("user_data");
+                var btn = document.getElementById("edit_profile");
+                var elements = document.getElementsByTagName("input");
+                var textarea = document.getElementById("bio_input");
+                var file_selector = document.getElementById("file_selector");
+                var clear_img_btn = document.getElementById("image_btn_wrapper");
+
+                if (form.style.display === "none") {
+                    form.style.display = "block";
+                    clear_img_btn.style.display = "flex";
+                    data.style.display = "none";
+                    btn.style.display = "none";
+                } else {
+                    form.style.display = "none";
+                    clear_img_btn.style.display = "none";
+                    data.style.display = "block";
+                    btn.style.display = "block";
+
+
+                    for (var ii = 0; ii < elements.length; ii++) {
+                        if (elements[ii].type == "text") {
+                            elements[ii].value = "";
+                        }
+                    }
+
+                    textarea.value = "";
+                    file_selector.value = "";
+                }
+
+            }
+        </script>
+
+        <button id="edit_profile" onclick="edit_profile()">Edit profile</button>
+
+        <div id="user_data">
+            <p><span>E-mail:</span> {{ current_user.email }}</p>
+            <p><span>First name:</span> {{ current_user.first_name }}</p>
+            <p><span>Last name:</span> {{ current_user.last_name }}</p>
+            <p><span>Nickname:</span> {{ current_user.username }}</p>
+            <p><span>Member since:</span> {{ current_user.member_since }}</p>
+            <p><span>Bio:</span> {{ current_user.bio }}</p>
+        </div>
+
+        <div id="user_data_edit">
+            <form>
+                <div class="block">
+                    <label>E-mail:</label>
+                    <input id="email_input" type="text" placeholder="{{ current_user.email }}">
+                </div>
+
+                <div class="block">
+                    <label>First name:</label>
+                    <input id="first_name_input" type="text" placeholder="{{ current_user.first_name }}">
+                </div>
+
+                <div class="block">
+                    <label>Last name:</label>
+                    <input id="last_name_input" type="text" placeholder="{{ current_user.last_name }}">
+                </div>
+
+                <div class="block">
+                    <label>Nickname:</label>
+                    <input id="nickname_input" type="text" placeholder="{{ current_user.username }}">
+                </div>
+
+                <div class="block">
+                    <label>Bio:</label>
+                    <textarea id="bio_input" placeholder="{{ current_user.bio }}"></textarea>
+                </div>
+
+                <div id="btns">
+                    <button type="button" id="cancel_changes" onclick="edit_profile()">Cancel</button>
+                    <button type="submit" id="save_changes">Save</button>
+                </div>
+            </form>
+
+        </div>
     </div>
 {% endblock %}
