@@ -59,6 +59,32 @@ nav {
     padding: 0 15%;
 }
 
+#pages {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 400px;
+}
+
+.nav_btn {
+    padding: 10px 20px;
+    background: #a8a6a6;
+    border-radius: 5px;
+    color: white;
+}
+
+.nav_btn:hover {
+    background: #757575;
+}
+
+#logout_btn {
+    background: #ab8e8e;
+}
+
+#logout_btn:hover {
+    background: #b44444;
+}
+
 #main_wrapper {
     width: 100%;
     padding: 0 15%;

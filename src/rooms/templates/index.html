@@ -10,6 +10,10 @@
     Home
 {% endblock %}
 
+{% block page %}
+    <a href="{{ url_for('profile.profile') }}" class="nav_btn"><p>Profile</p></a>
+{% endblock %}
+
 {% block content %}
     <div id="editor">{% if current_user.is_authenticated %}// Hi {{ current_user.name }}!{% endif %}</div>
 
@@ -84,9 +88,6 @@
         </script>
 
         <div id="container">
-            <div id="user">
-                <p><a href="{{ url_for('profile.profile') }}">Profile</a></p>
-            </div>
             <div id="chat">
             </div>
         </div>

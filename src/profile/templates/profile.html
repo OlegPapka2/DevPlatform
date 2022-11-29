@@ -8,9 +8,16 @@
     Profile
 {% endblock %}
 
+{% block page %}
+    <a href="{{ url_for('rooms.home') }}" class="nav_btn"><p>Home</p></a>
+{% endblock %}
+
 {% block content %}
     <div id="profile">
-        <p id="home"><a href="{{ url_for('rooms.home') }}">Home</a></p>
+        <div id="picture">
+            <img src="{{ profile_picture }}" alt="Profile picture">
+        </div>
+
         <p><span>E-mail:</span> {{ current_user.email }}</p>
         <p><span>First name:</span> {{ current_user.first_name }}</p>
         <p><span>Last name:</span> {{ current_user.last_name }}</p>
