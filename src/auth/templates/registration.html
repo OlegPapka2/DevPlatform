@@ -17,12 +17,12 @@
 
             <h2>Let's get to know each other!</h2>
 
-            <input autocomplete="on" autofocus name="email" placeholder="e-mail" type="text" required>
+            <input autocomplete="on" autofocus name="email" minlength="3" placeholder="e-mail" type="text" required>
             <input autocomplete="on" name="first_name" placeholder="First name" type="text" required>
 
-            <input name="password" id="password" placeholder="Password" type="password"
+            <input name="password" id="password" minlength="6" placeholder="Password" type="password"
                    onkeyup='check_psw();' required>
-            <input name="password_confirmation" id="confirm_password" placeholder="Password confirmation"
+            <input name="password_confirmation" id="confirm_password" minlength="6" placeholder="Password confirmation"
                    type="password" onkeyup='check_psw();' required>
 
             <a href="{{ url_for('auth.login') }}"><p>Login</p></a>
