@@ -11,7 +11,7 @@ home_bp = Blueprint(
 )
 
 
-@home_bp.route('/room', methods=['GET'])
+@home_bp.route('/rooms', methods=['GET'])
 @login_required
 def rooms():
     return render_template('rooms.html')

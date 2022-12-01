@@ -21,7 +21,7 @@ class RegistrationForm(FlaskForm):
         if not initial_validation:
             return False
 
-        user = User.query.filter_by(username=self.email.data).first()
+        user = User.query.filter_by(email=self.email.data).first()
         if user:
             self.email.errors.append("E-mail already registered")
             return False
