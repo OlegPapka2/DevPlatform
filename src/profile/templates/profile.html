@@ -96,17 +96,16 @@
             var file_selector = document.getElementById("file_selector");
             var clear_img_btn = document.getElementById("image_btn_wrapper");
 
-            if (form.style.display === "none") {
-                form.style.display = "block";
-                clear_img_btn.style.display = "flex";
-                data.style.display = "none";
-                btn.style.display = "none";
-            } else {
+            if (form.style.display === "block") {
                 form.style.display = "none";
                 clear_img_btn.style.display = "none";
                 data.style.display = "block";
                 btn.style.display = "block";
-
+            } else {
+                form.style.display = "block";
+                clear_img_btn.style.display = "flex";
+                data.style.display = "none";
+                btn.style.display = "none";
 
                 for (var i = 0; i < elements.length; i++) {
                     if (elements[i].type == "text") {
