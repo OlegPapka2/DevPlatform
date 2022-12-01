@@ -2,10 +2,11 @@ import os.path
 
 from flask import Blueprint, render_template, url_for
 from flask_login import login_required, current_user
+from flask_socketio import emit
 from werkzeug.utils import secure_filename
 
 from config import Config
-from extensions import db
+from extensions import db, socketio
 from models import User
 from profile.forms import ProfileEditForm
 from utils.error_utils import flash_errors
@@ -57,3 +58,17 @@ def profile():
         picture_path = url_for('static', filename='profile_pictures/default_profile_picture.png')
 
     return render_template('profile.html', profile_picture=picture_path, form=form)
+
+
+@socketio.on('delete_image')
+def handle_my_custom_event():
+    user = User.get_by_id(current_user.get_id())
+    old_pic = user.picture
+    default_picture = 'default_profile_picture.png'
+
+    if old_pic != default_picture:
+        user.picture = default_picture
+        db.session.commit()
+
+        emit('change_image', {"image_path": url_for('static', filename=f'profile_pictures/{default_picture}')})
+        os.remove(f'static/profile_pictures/{old_pic}')

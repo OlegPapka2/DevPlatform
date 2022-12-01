@@ -16,7 +16,7 @@
     <div id="profile">
 
         <div id="picture">
-            <img src="{{ profile_picture }}" alt="Profile picture">
+            <img src="{{ profile_picture }}" id="profile_picture" alt="Profile picture">
         </div>
 
         <button id="edit_profile" onclick="edit_profile()">Edit profile</button>
@@ -37,7 +37,7 @@
 
                 <div id="image_btn_wrapper">
                     <input type="file" id="file_selector" name="picture" accept="image/jpeg, image/png, image/jpg">
-                    <button id="delete_image">Remove image</button>
+                    <button id="delete_image" type="button">Remove image</button>
                 </div>
 
                 <div class="block">
@@ -79,6 +79,12 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"
+            integrity="sha512-YeeA/Qxn5hYdkukScTCNNOhTrv1C2RubAGButJ1rmgQwZf/HdRaCGl+JAVkqsqaNRaYNHdheiuKKuPf9mDcqKg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
         function edit_profile() {
@@ -139,5 +145,19 @@
 
             return alert("Provide some data to change!")
         });
+
+        $(document).ready(function () {
+            var socket = io.connect("http://localhost:5000")
+
+            $('#delete_image').on('click', function () {
+                socket.emit('delete_image')
+            })
+
+            socket.on('change_image', function (data) {
+                $("#profile_picture").attr("src", data["image_path"]);
+            })
+        })
+
+
     </script>
 {% endblock %}
