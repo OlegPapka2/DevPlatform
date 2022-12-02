@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed
 from wtforms import StringField, FileField
 from wtforms.validators import Length, optional
 
@@ -11,7 +12,7 @@ class ProfileEditForm(FlaskForm):
     last_name = StringField('last_name', validators=[optional(), Length(min=3, max=64)])
     nickname = StringField('nickname', validators=[optional(), Length(min=3, max=64)])
     bio = StringField('nickname', validators=[optional(), Length(min=3, max=128)])
-    picture = FileField('picture', validators=[optional()])
+    picture = FileField('picture', validators=[optional(), FileAllowed(['jpg', 'png', 'jpeg'])])
 
     def __init__(self, *args, **kwargs):
         super(ProfileEditForm, self).__init__(*args, **kwargs)

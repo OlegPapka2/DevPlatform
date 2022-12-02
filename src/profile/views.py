@@ -1,6 +1,6 @@
 import os.path
 
-from flask import Blueprint, render_template, url_for
+from flask import Blueprint, render_template, url_for, flash
 from flask_login import login_required, current_user
 from flask_socketio import emit
 from werkzeug.utils import secure_filename

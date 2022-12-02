@@ -36,7 +36,8 @@
                 {{ form.csrf_token }}
 
                 <div id="image_btn_wrapper">
-                    <input type="file" id="file_selector" name="picture" accept="image/jpeg, image/png, image/jpg">
+                    <input type="file" id="file_selector" name="picture" accept="image/jpeg, image/png, image/jpg"
+                           onchange="return fileValidation()">
                     <button id="delete_image" type="button">Remove image</button>
                 </div>
 
@@ -157,6 +158,19 @@
             })
         })
 
+        function fileValidation() {
+            var fileInput = document.getElementById('file_selector');
+            var filePath = fileInput.value;
+
+            // Allowing file type
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type');
+                fileInput.value = '';
+                return false;
+            }
+        }
 
     </script>
 {% endblock %}
