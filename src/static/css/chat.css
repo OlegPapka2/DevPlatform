@@ -86,6 +86,8 @@ button:hover {
     min-height: 40px;
     margin: 8px;
     border-radius: 14px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 .current_user {
