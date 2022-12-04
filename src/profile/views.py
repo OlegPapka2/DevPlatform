@@ -1,6 +1,6 @@
 import os.path
 
-from flask import Blueprint, render_template, url_for, flash
+from flask import Blueprint, render_template, url_for, request, redirect
 from flask_login import login_required, current_user
 from flask_socketio import emit
 from werkzeug.utils import secure_filename
@@ -33,14 +33,14 @@ def profile():
         if form.first_name.data != user.first_name and form.first_name.data != '':
             user.first_name = form.first_name.data
 
-        if form.last_name.data != user.last_name and form.last_name.data != '':
-            user.last_name = form.last_name.data
+        if form.last_name.data != user.last_name:
+            user.last_name = None if form.last_name.data == '' else form.last_name.data
 
-        if form.nickname.data != user.username and form.nickname.data != '':
-            user.username = form.nickname.data
+        if form.nickname.data != user.username:
+            user.username = None if form.nickname.data == '' else form.nickname.data
 
-        if form.bio.data != user.bio and form.bio.data != '':
-            user.bio = form.bio.data
+        if form.bio.data != user.bio:
+            user.bio = None if form.bio.data == '' else form.bio.data
 
         if filename := secure_filename(form.picture.data.filename):
             form.picture.data.save(os.path.join(Config.UPLOAD_FOLDER, filename))
@@ -48,6 +48,11 @@ def profile():
 
         db.session.commit()
     else:
+        form.email.data = user.email
+        form.first_name.data = user.first_name
+        form.last_name.data = user.last_name
+        form.nickname.data = user.username
+        form.bio.data = user.bio
         flash_errors(form)
 
     profile_picture = current_user.picture
@@ -57,7 +62,10 @@ def profile():
     else:
         picture_path = url_for('static', filename='profile_pictures/default_profile_picture.png')
 
-    return render_template('profile.html', profile_picture=picture_path, form=form)
+    if request.method == 'POST':
+        return redirect('profile')
+    else:
+        return render_template('profile.html', profile_picture=picture_path, form=form)
 
 
 @socketio.on('delete_image')
